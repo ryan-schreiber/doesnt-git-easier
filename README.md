@@ -16,7 +16,7 @@ with git.commit(message = "Pushing with Doesn't Git Easier") as commit:
     f.write(b"testing python lib again")
     commit.add(f)
     
-  #  automatically pushes when exiting the 'with' git.commit statement
+  #  automatically pushes when exiting the 'with' git.commit context
 ```
 #### Install
 ``` 
