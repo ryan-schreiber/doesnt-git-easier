@@ -18,6 +18,10 @@ with git.commit(message = "Pushing with Doesn't Git Easier") as commit:
     
   #  automatically pushes when exiting the 'with' git.commit statement
 ```
+#### Install
+``` 
+pip install doesnt-git-easier
+```
 
 ## Features
 
