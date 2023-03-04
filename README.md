@@ -1,5 +1,5 @@
-# doesnt-git-easier
-Making writing files to git easy and pythonic with context managers and the Git REST API.
+# `doesnt-git-easier`
+Making it easy to read and write files to Git in a Pythonic way with context managers and the Git REST API.
 
 ## Usage
 ```python
@@ -29,5 +29,6 @@ pip install doesnt-git-easier
 * Commit and push files easily without cloning a repo
 * Abstracts away the interactions with Git REST API in a Pythonic way for simpler use
 * Multiple ways of storing token information to help keep your keys secure
+* Uses the "smart_open" library for opening files when not a git file
 
 
