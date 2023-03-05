@@ -5,9 +5,12 @@ from setuptools import setup, find_packages
 with open("./requirements.txt") as f:
     requirements = f.read().split("\n")
 
+with open("./version.txt") as f:
+    version = f.read()
+
 setup(
       name='doesnt-git-easier',
-      version='1.0.0',
+      version=version,
       description='Making it easy to read and write files to Git in a Pythonic way with context managers and the Git REST API.',
       long_description='Making it easy to read and write files to Git in a Pythonic way with context managers and the Git REST API.',
       author='Ryan Schreiber',
