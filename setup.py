@@ -16,5 +16,11 @@ setup(
       author='Ryan Schreiber',
       author_email='ryanschreiber86@gmail.com',
       packages=find_packages(),
-      install_requires=requirements
+      install_requires=requirements,
+      keywords="git commit add push files context manager doesnt-git-easier doesn't get easier",
+      project_urls={
+        'Documentation': 'https://github.com/ryan-schreiber/doesnt-git-easier/',
+        'Source': 'https://github.com/ryan-schreiber/doesnt-git-easier/',
+        'Tracker': 'https://github.com/ryan-schreiber/doesnt-git-easier/issues',
+      },
     )
