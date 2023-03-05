@@ -18,6 +18,7 @@ with git.commit(message = "Pushing with Doesn't Git Easier") as commit:
     
   #  automatically pushes when exiting the 'with' git.commit context
 ```
+
 #### Install
 ``` 
 pip install doesnt-git-easier
@@ -32,19 +33,108 @@ pip install doesnt-git-easier
 * Uses the "smart_open" library for opening files when not a git file
 * Can be used with Pandas and other libraries that work with files
 
-## Full Usage
+## Authentication
 
-#### Authentication
+This library uses a Github Personal Access Token. Find out how to get one 
+[here](https://docs.github.com/en/enterprise-server@3.4/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token). 
+The following are all ways to authenticate the personal access token, and is the order of operations 
+for reading. For example, if the git token is defined in the credentials file and an environment 
+variable, then the environment variable would be used.
 
-Authentication section
+##### ~/.github/credentials File
+```
+[default]
+GIT_TOKEN = ghp_xxxxxxx
+```
 
-#### Using Context Managers
+##### Set Environment Variable
+```sh
+export GIT_TOKEN=ghp_xxxxxxx
+```
 
-context managers section
+##### .env File
+```
+GIT_TOKEN = ghp_xxxxxxx
+```
 
-#### Without Context Managers
+##### doesnt_git_easier.configure Function
+```python
+import doesnt_git_easier as git
+git.configure(token="ghp_xxxxxxx")
+...
+```
 
-without context managers section
+## More use cases
 
+##### 1. Read contents of files in Git repo
+```python
+import doesnt_git_easier as git
+from doesnt_git_easier import open
+
+#configure your git token if it is not in env variable or credential file
+git.configure(token="ghp_xxxxxxx")
+
+# Example #1 leave out mode and it defaults to 'r' like builtin open function
+with open("https://github.com/ryan-schreiber/doesnt-git-easier/test/README1.md?ref=main") as f:
+  text = f.read()
+
+# Example #2 read in as a string
+with open("https://github.com/ryan-schreiber/doesnt-git-easier/test/README1.md?ref=main", mode="r") as f:
+  text = f.read()
+
+# Example #3 read in as a bytestring
+with open("https://github.com/ryan-schreiber/doesnt-git-easier/test/README1.md?ref=main", mode="rb") as f:
+  bytes = f.read()
+```
+
+##### 2. Work with a small dataset from Git repo as a dataframe
+```python
+import pandas
+import doesnt_git_easier as git
+from doesnt_git_easier import open
+
+#configure your git token if it is not in env variable or credential file
+git.configure(token="ghp_xxxxxxx")
+
+
+with open("https://github.com/ryan-schreiber/doesnt-git-easier/test/test.csv?ref=main", mode="r") as f:
+  df = pandas.from_csv(f)
+  # if you're working with spark you can use this step to convert pandas df to spark df
+  # df = spark.createDataFrame(pandas.from_csv(f))
+  
+# ... make some transformations ...
+  
+with git.commit(message="updating csv file") as commit:
+
+  with open("https://github.com/ryan-schreiber/doesnt-git-easier/test/test.csv?ref=main", mode="w") as f:
+    df.to_csv(f, index=False)
+    commit.add(f)
+  
+  # automatically pushes at the end of the git.commit scope
+```
+
+
+##### 3. Work without the context managers
+```python
+import doesnt_git_easier as git
+from doesnt_git_easier import open
+
+#configure your git token if it is not in env variable or credential file
+git.configure(token="ghp_xxxxxxx")
+
+# reading a file
+f = open("https://github.com/ryan-schreiber/doesnt-git-easier/test/README.md?ref=main", mode="r")
+text = f.read()
+f.close()
+
+# writing a file
+commit = git.commit(message="without context managers")
+f = open("https://github.com/ryan-schreiber/doesnt-git-easier/test/README.md?ref=main", mode="w")
+f.write("testing testing")
+commit.add(f)
+f.close()
+commit.push()
+
+```
 
 
