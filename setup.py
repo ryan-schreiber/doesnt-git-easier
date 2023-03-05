@@ -8,7 +8,8 @@ with open("./requirements.txt") as f:
 setup(
       name='doesnt-git-easier',
       version='1.0.0',
-      description='A library of common python utilities that can be generally used in python projects',
+      description='Making it easy to read and write files to Git in a Pythonic way with context managers and the Git REST API.',
+      long_description='Making it easy to read and write files to Git in a Pythonic way with context managers and the Git REST API.',
       author='Ryan Schreiber',
       author_email='ryanschreiber86@gmail.com',
       packages=find_packages(),
