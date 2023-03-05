@@ -96,14 +96,15 @@ from doesnt_git_easier import open
 #configure your git token if it is not in env variable or credential file
 git.configure(token="ghp_xxxxxxx")
 
-
+# Example #1 How to read into a dataframe
 with open("https://github.com/ryan-schreiber/doesnt-git-easier/test/test.csv?ref=main", mode="r") as f:
   df = pandas.from_csv(f)
   # if you're working with spark you can use this step to convert pandas df to spark df
   # df = spark.createDataFrame(pandas.from_csv(f))
   
 # ... make some transformations ...
-  
+
+# Example #2 How to write a dataframe to git
 with git.commit(message="updating csv file") as commit:
 
   with open("https://github.com/ryan-schreiber/doesnt-git-easier/test/test.csv?ref=main", mode="w") as f:
