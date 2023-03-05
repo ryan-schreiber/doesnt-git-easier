@@ -45,8 +45,10 @@ class File():
 
     def _open_readable(self, path):
         headers = {"Authorization": f"Bearer {self.config.attributes['token']}"}
-        raw_path = "https://raw.{base_url}/{org}/{repo}/{ref}/{path}".format(**self.parsed)
-        raw_path = "https://raw.githubusercontent.com/{org}/{repo}/{ref}/{path}".format(**self.parsed)
+        if self.base_url == "github.com":
+            raw_path = "https://raw.githubusercontent.com/{org}/{repo}/{ref}/{path}".format(**self.parsed)
+        else:
+            raw_path = "https://raw.{base_url}/{org}/{repo}/{ref}/{path}".format(**self.parsed)
         response = requests.get(raw_path, headers=headers)
         if not response.ok:
             response.raise_for_status()
@@ -61,11 +63,16 @@ class File():
 
 @contextmanager
 def open(*args, **kwargs):
-    if args[0].startswith("https://git"):
-        f = File(*args, **kwargs)
-        yield f
-    else:
-        with smart_open.open(*args, **kwargs) as f:
+    prefixes = [
+        "https://github",
+        "https://raw.github",
+    ]
+    for prefix in prefixes:
+        if args[0].startswith(prefix):
+            f = File(*args, **kwargs)
             yield f
+            return
+    with smart_open.open(*args, **kwargs) as f:
+        yield f
         
 
