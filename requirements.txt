@@ -1,2 +1,3 @@
 smart-open
 requests
+python-dotenv
